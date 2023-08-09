@@ -42,7 +42,7 @@ JRE = JVM + Java SE 类库
 
      点击继续，接下来安装，输入本机密码，安装成功
 
-     ![image-20230506152315607](/Users/linggongbang/Desktop/笔记/assets/image-20230506152315607.png)
+     ![image-20230506152315607](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230506152315607.png)
 
      ###### 检查安装是否成功
 
@@ -72,7 +72,7 @@ JRE = JVM + Java SE 类库
 
      如下图标红区域则是安装JDK路径：
 
-     ![image-20230506153930334](/Users/linggongbang/Desktop/笔记/assets/image-20230506153930334.png)
+     ![image-20230506153930334](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230506153930334.png)
 
      可以通过软连接映射到 `/Library/Java/JavaVirtualMachines` 目录下。
 
@@ -92,7 +92,7 @@ JRE = JVM + Java SE 类库
 
      返回结果显示
 
-     ![image-20230504145027991](/Users/linggongbang/Desktop/笔记/assets/image-20230504145027991.png)
+     ![image-20230504145027991](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230504145027991.png)
 
      根据需要安装相应版本
 
@@ -100,7 +100,7 @@ JRE = JVM + Java SE 类库
 
      以下M1/M2安装openjdk@8的错误信息：
 
-     ![image-20230504145314530](/Users/linggongbang/Desktop/笔记/assets/image-20230504145314530.png)
+     ![image-20230504145314530](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230504145314530.png)
 
      
 
@@ -112,11 +112,11 @@ JRE = JVM + Java SE 类库
 
      1. 下载JDK包，建议下载.dmg
 
-        <img src="/Users/linggongbang/Desktop/笔记/assets/image-20230504162649589.png" alt="image-20230504162649589" style="zoom:50%;" />
+        <img src="/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230504162649589.png" alt="image-20230504162649589" style="zoom:50%;" />
 
      2. 安装JAVA8
 
-     <img src="/Users/linggongbang/Desktop/笔记/assets/image-20230504163112676.png" alt="image-20230504163112676" style="zoom: 50%;" />
+     <img src="/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230504163112676.png" alt="image-20230504163112676" style="zoom: 50%;" />
 
      
 
@@ -128,11 +128,11 @@ JRE = JVM + Java SE 类库
 
           以下是安装openjdk（最新版本）的过程
 
-        ![1683186396016](/Users/linggongbang/Desktop/笔记/assets/1683186396016.jpg)
+        ![1683186396016](/Users/linggongbang/Desktop/笔记/IT/Java/assets/1683186396016.jpg)
 
-        ![1683186452865](/Users/linggongbang/Desktop/笔记/assets/1683186452865.jpg)
+        ![1683186452865](/Users/linggongbang/Desktop/笔记/IT/Java/assets/1683186452865.jpg)
 
-        ![image-20230504145928759](/Users/linggongbang/Desktop/笔记/assets/image-20230504145928759.png)
+        ![image-20230504145928759](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230504145928759.png)
 
         ###### 检查安装是否成功
 
@@ -241,7 +241,7 @@ echo $JAVA_HOME
    ————————————————
    ```
 
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/619cf03b8dbb4c9caf7a2b86e86a6347.jpeg#pic_center)
+   ![在这里插入图片描述](/Users/linggongbang/Desktop/笔记/IT/Java/assets/619cf03b8dbb4c9caf7a2b86e86a6347.jpeg)
 
    输入下面两行命令解决上面的错误：
 
@@ -290,7 +290,7 @@ echo $JAVA_HOME
 
       问题分析：错误信息中描述了由于已经设置了$JAVA_HOME环境变量，所以无法再通过jenv来设置$JAVA_HOME环境变量，通俗解释就是 jenv无法拿到设置$JAVA_HOME环境变量的控制权，拿不到控制权就无法切换版本
 
-      ![image-20230506164159442](/Users/linggongbang/Desktop/笔记/assets/image-20230506164159442.png)
+      ![image-20230506164159442](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230506164159442-1458602.png)
 
       解决方式如下：
 
@@ -335,7 +335,7 @@ echo $JAVA_HOME
 
       出现以下提示则成功
 
-      ![image-20230506173015070](/Users/linggongbang/Desktop/笔记/assets/image-20230506173015070.png)
+      ![image-20230506173015070](/Users/linggongbang/Desktop/笔记/IT/Java/assets/image-20230506173015070.png)
 
 4. 查找已安装的JDK目录
 

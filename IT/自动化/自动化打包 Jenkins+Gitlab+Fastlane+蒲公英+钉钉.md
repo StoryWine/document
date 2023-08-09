@@ -20,7 +20,7 @@
 
 - **xcode命令行工具**
 
-  ```lua
+  ```shell
   xcode-select --install 
   ```
 
@@ -38,37 +38,44 @@
   可先查看 当前安装的java版本
   
   ```shell
-  shell
-  复制代码java -version
+  java -version
   ```
   
   如果未安装请先前往 [JDK下载链接](https://www.oracle.com/java/technologies/downloads/) 下载
 
 ## **安装**
 
-### 一、Fastlane 安装
+### **一、Fastlane 安装**
 
-参考官网：[ fastlane docs](https://docs.fastlane.tools/)
+[Fastlane](https://fastlane.tools/) 是一整套的客户端 CI 工具集合，替代开发者处理构建和发布 App 中繁琐的任务，可以非常快速简单的搭建一个自动化发布服务，并且支持Android，iOS，MacOS。Fastlane本身没有一套特殊语法，使用的 Ruby 语言。
 
-#### 第一种方式：Homebrew
+**Fastlane 的能力**
 
-```lua
-brew install fastlane --cask
+- [为 Appstore 自动生成截图](https://docs.fastlane.tools/getting-started/ios/screenshots/)
+- [轻松地将测试版分发给测试人员](https://docs.fastlane.tools/getting-started/ios/beta-deployment/)
+- [快速地将新版本发布到应用商店](https://docs.fastlane.tools/getting-started/ios/appstore-deployment/)
+- [对 App 进行代码签名，管理 App的证书、设备和描述文件](https://docs.fastlane.tools/codesigning/getting-started/)
+- 为代码生成文档
+
+参考官网文档：[ fastlane docs](https://docs.fastlane.tools/)
+
+#### **第一种方式：Homebrew**
+
+```shell
+brew install fastlane
 ```
 
-#### 第二种方式：RubyGems
+#### **第二种方式：RubyGems**
 
 ```shell
 sudo gem install fastlane
 ```
 
-
-
-### 二、Jenkins 安装
+### **二、Jenkins 安装**
 
 首先我采用的是Homebrew的安装方式，需要提前安装好Homebrew环境，或者也可以采用线面第二种方式安装
 
-#### 第一种方式：Homebrew  
+#### **第一种方式：Homebrew**  
 
 安装之前执行命令检查自己的Homebrew环境：`brew doctor`
 
@@ -84,7 +91,7 @@ sudo gem install fastlane
 
 ![image-20230801110737580](/Users/linggongbang/Desktop/笔记/IT/自动化/assets/image-20230801110737580.png)
 
-#### 第二种方式  war文件方式  
+#### **第二种方式  war文件方式**  
 
 首先下载 .war文件，这个就在 [官网下载](https://www.jenkins.io/download/) 位置如下：
 
@@ -92,7 +99,7 @@ sudo gem install fastlane
 
 ![image-20230801112321453](/Users/linggongbang/Desktop/笔记/IT/自动化/assets/image-20230801112321453.png)
 
-### 三、Jenkins 安装后设置向导
+### **三、Jenkins 安装后设置向导**
 
 使用以上方式安装、启动Jenkins后设置向导开始
 
@@ -124,13 +131,165 @@ sudo gem install fastlane
 
 设置向导显示正在配置的Jenkins的进度以及您选择的Jenkins插件集正在安装。这个过程可能需要几分钟。
 
-## **配置**
+## **项目配置**
+
+上面已经介绍了如何安装相关软件，下面开始介绍如何通过Fastlane+Jenkins+Gitlab+蒲公英+钉钉进行自动化打包：
+
+### **一、Fastlane 配置**
+
+#### **Fastlane 初始化**
+
+打开命令行工具`cd`到项目目录下，然后执行`fastlane init` 
+
+```shell
+cd 项目目录下（项目路径）
+
+fastlane init
+
+#请注意，如果您想在 App Store Connect 帐户上创建第一个应用程序，则需要使用环境变量设置开发者名称 ( company_name) ：PRODUCE_COMPANY_NAME
+PRODUCE_COMPANY_NAME="你的公司名称" fastlane init
+```
+
+**注：** 若遇到`command not found: fastlane`错误请看**错误集锦**中的第二种错误
+
+如下，这里选择4（自定义配置）之后回车三连击。2是TestFilght配置、3是App Store配置，我这里暂时用不上，所以不选，后续也可以自己加上。
+
+```shell
+linggongbang@bogon CI % fastlane init
+[✔] 🚀
+[✔] Looking for iOS and Android projects in current directory...
+[15:14:33]: Created new folder './fastlane'.
+[15:14:33]: Detected an iOS/macOS project in the current directory: 'CI.xcworkspace'
+[15:14:33]: -----------------------------
+[15:14:33]: --- Welcome to fastlane 🚀 ---
+[15:14:33]: -----------------------------
+[15:14:33]: fastlane can help you with all kinds of automation for your mobile app
+[15:14:33]: We recommend automating one task first, and then gradually automating more over time
+[15:14:33]: What would you like to use fastlane for?
+# 为 App Store 生成本地化的 iOS 屏幕截图 
+1. 📸  Automate screenshots
+# 自动发布beta版本到testFlight
+2. 👩‍✈️  Automate beta distribution to TestFlight
+# 自动发布到App Store
+3. 🚀  Automate App Store distribution
+# 自定义手动设置
+4. 🛠  Manual setup - manually setup your project to automate your tasks
+?  4
+[16:01:07]: ------------------------------------------------------------
+[16:01:07]: --- Setting up fastlane so you can manually configure it ---
+[16:01:07]: ------------------------------------------------------------
+[16:01:07]: Installing dependencies for you...
+[16:01:07]: $ bundle update
+[16:03:33]: --------------------------------------------------------
+[16:03:33]: --- ✅  Successfully generated fastlane configuration ---
+[16:03:33]: --------------------------------------------------------
+[16:03:33]: Generated Fastfile at path `./fastlane/Fastfile`
+[16:03:33]: Generated Appfile at path `./fastlane/Appfile`
+[16:03:33]: Gemfile and Gemfile.lock at path `Gemfile`
+[16:03:33]: Please check the newly generated configuration files into git along with your project
+[16:03:33]: This way everyone in your team can benefit from your fastlane setup
+[16:03:33]: Continue by pressing Enter ⏎
+
+[16:36:06]: fastlane will collect the number of errors for each action to detect integration issues
+[16:36:06]: No sensitive/private information will be uploaded, more information: https://docs.fastlane.tools/#metrics
+[16:36:06]: ----------------------
+[16:36:06]: --- fastlane lanes ---
+[16:36:06]: ----------------------
+[16:36:06]: fastlane uses a `Fastfile` to store the automation configuration
+[16:36:06]: Within that, you'll see different lanes.
+[16:36:06]: Each is there to automate a different task, like screenshots, code signing, or pushing new releases
+[16:36:06]: Continue by pressing Enter ⏎
+
+[16:36:07]: --------------------------------------
+[16:36:07]: --- How to customize your Fastfile ---
+[16:36:07]: --------------------------------------
+[16:36:07]: Use a text editor of your choice to open the newly created Fastfile and take a look
+[16:36:07]: You can now edit the available lanes and actions to customize the setup to fit your needs
+[16:36:07]: To get a list of all the available actions, open https://docs.fastlane.tools/actions
+[16:36:07]: Continue by pressing Enter ⏎
+
+[16:36:07]: ------------------------------
+[16:36:07]: --- Where to go from here? ---
+[16:36:07]: ------------------------------
+[16:36:07]: 📸  Learn more about how to automatically generate localized App Store screenshots:
+[16:36:07]: 		https://docs.fastlane.tools/getting-started/ios/screenshots/
+[16:36:07]: 👩‍✈️  Learn more about distribution to beta testing services:
+[16:36:07]: 		https://docs.fastlane.tools/getting-started/ios/beta-deployment/
+[16:36:07]: 🚀  Learn more about how to automate the App Store release process:
+[16:36:07]: 		https://docs.fastlane.tools/getting-started/ios/appstore-deployment/
+[16:36:07]: 👩‍⚕️  Learn more about how to setup code signing with fastlane
+[16:36:07]: 		https://docs.fastlane.tools/codesigning/getting-started/
+[16:36:07]:
+[16:36:07]: To try your new fastlane setup, just enter and run
+[16:36:07]: $ fastlane custom_lane
+```
+
+当命令执行到 `bundle update`可能会卡住，需要打开项目目录下新增的文件`GemFile`，修改一下ruby源。保存后，继续在当前目录下执行`bundle update`即可。
+
+```shell
+#旧
+#source "https://rubygems.org"
+#新
+source "https://gems.ruby-china.com"
+```
+
+若出现以上问题如果有条件的小伙伴可以翻墙重新运行`fastlane init` ，就不会出现卡主的情况
+
+#### FastLane 配置文件说明
+
+| 文件名      | 描述                                                         |
+| ----------- | ------------------------------------------------------------ |
+| Appfile     | 从 Apple Developer Portal 获取的开发者账号相关信息           |
+| Fastfile    | 核心文件，用于命令行调用和处理具体的流程，lane相对于一个action方法或函数 |
+| Gemfile     | 类似于cocopods 的Podfile文件                                 |
+| Matchfile   | Match管理证书和描述文件的配置文件                            |
+| .env        | 配置环境变量（在fastlane init进行初始化后并不会自动生成，如果需要可以自己创建Deliverfile: deliver工具的配置文件，上传截图苹果和后台一些app信息  (默认不生成，需要sudo gem install deliver安装)然后在fastlane 目录下执行deliver init 即可，执行 deliver init 将会生成Deliverfile、screenshots、metadata文件） |
+| Deliverfile | deliver工具的配置文件,从 iTunes Connect 获取和项目相关的信息详细 |
+| metadata    | 同步iTC中的元数据                                            |
+| screenshots | 同步iTC中的截图                                              |
+
+#### FastLane 脚本编写
+
+##### Appfile文件配置
+
+`Appfile`中包含App Store Connect 和 Apple Developer Portal 相关信息，以便更快地部署您的通道并根据您的项目需求进行定制。
+
+`Appfile`必须位于您的项目的`./fastlane`目录内。
+
+执行`fastlane init`后`Appfile`文件默认配置如下：
+
+```shell
+# [[APP_IDENTIFIER]] 替换为项目 Bundle Identifier，若有多个 Bundle Identifier 请用逗号隔开
+#app_identifier("[[APP_IDENTIFIER]]") # The bundle identifier of your app
+# [[APPLE_ID]] 替换为可以打包的开发者账号
+#apple_id("[[APPLE_ID]]") # Your Apple Developer Portal username
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
+
+```
+
+只需要把默认配置下的配置内容替换为自己开发者账号与项目信息就可以了。以下是我的文件配置
+
+```shell
+# The bundle identifier of your app (项目 Bundle Identifier)
+# 若有多个 Bundle Identifier 请用逗号隔开
+app_identifier("com.**.**") 
+
+# Your Apple Developer Portal username (可打包的开发者账号)
+apple_id("*******@qq.com") 
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
+```
+
+##### Fastfile文件配置
 
 
 
-## 错误集锦：
+## **错误集锦：**
 
-### 一、 brew services start jenkins-lts 启动Jenkins如遇到下面错误   执行`brew update` 
+### **一、 brew services start jenkins-lts 启动Jenkins如遇到下面错误   执行`brew update` **
 
 ```python
 Error: uninitialized constant Homebrew::Service::System
@@ -139,7 +298,7 @@ Error: uninitialized constant Homebrew::Service::System
 /opt/homebrew/Library/Homebrew/brew.rb:94:in `<main>'
 ```
 
-#### [[Brew\]brew update命令：Warning: No remote 'origin' in /opt/homebrew/Library/Taps/homebrew/homebrew-services, skipping update!]
+**[[Brew\]brew update命令：Warning: No remote 'origin' in /opt/homebrew/Library/Taps/homebrew/homebrew-services, skipping update!]**
 
 最近在使用brew update的时候，遇到了：
 
@@ -190,3 +349,19 @@ Homebrew/homebrew-cask (git revision 201da9195e; last commit 2023-01-22)
 Already up-to-date.
  ****** Third, We should find the package update. [brew upgrade] ****** 
 ```
+
+### **二、执行`fastlane init` 遇到`command not found: fastlane`错误 **
+
+```shell
+#原因一：
+没有安装Fastlane,检查是否安装成功Fastlane, 若没有安装则执行`brew install fastlane`安装
+#原因二：
+没有安装Xcode命令行工具，执行`xcode-select --install`命令验证是否安装Xcode命令行工具、
+#原因三：
+没有配置环境变量，分别打开`~/.profile`, `~/.zshrc` ，`~/.bashrc`配置文件分别添加以下环境变量中的一种：
+export PATH="$HOME/.fastlane/bin:$PATH" 
+export PATH="$HOME/.fastlane/bin/fastlane_lib:$PATH"
+```
+
+检查完之后，再次执行`fastlane init` 不出意外的情况下会顺利通过
+
