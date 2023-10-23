@@ -249,7 +249,7 @@ source "https://gems.ruby-china.com"
 
 若出现以上问题如果有条件的小伙伴可以翻墙重新运行`fastlane init` ，就不会出现卡主的情况
 
-#### FastLane 配置文件说明
+#### FastLane 配置文件
 
 | 文件名                                                     | 描述                                                         |
 | ---------------------------------------------------------- | ------------------------------------------------------------ |
@@ -263,6 +263,48 @@ source "https://gems.ruby-china.com"
 | screenshots                                                | 同步iTC中的截图                                              |
 
 ####  Fastlane[工具集](https://docs.fastlane.tools/actions/)
+
+*fastlane* 的工具叫做 [*action*](https://docs.fastlane.tools/actions/) ，每一个 *action* 都对应一个具体的任务。命令执行的底层并不是自己实现的，而是调用其他的插件或者工具执行的。比如说，*fastlane* 中的 `gym` 工具只是 xcodebuild 和 xcpretty 工具的一个封装，调用的其实还是 xcodebuild 中的打包命令，因此参数也是一样的。下面介绍几个常用的 action:
+
+##### 构建
+
+| Action                                                       | 描述                                      |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| [gym](https://docs.fastlane.tools/actions/gym/)、[build_app](https://docs.fastlane.tools/actions/build_app/) | 构建和签名 App                            |
+| [build_ios_app](https://docs.fastlane.tools/actions/build_ios_app/) | 和 build_app 一致，只针对 iOS             |
+| [cocoapods](https://docs.fastlane.tools/actions/cocoapods/)  | 运行 cocoapods                            |
+| [xcclean](https://docs.fastlane.tools/actions/xcclean/)      | 使用 `xcodebuild clean` 清理工程          |
+| [xcodebuild](https://docs.fastlane.tools/actions/xcodebuild/)、[xcbuild](https://docs.fastlane.tools/actions/xcbuild/) | 使用 xcodebuild 命令构建和签名App         |
+| [xcarchive](https://docs.fastlane.tools/actions/xcarchive/)  | 使用 `xcodebuild archive` 命令归档        |
+| [xcexport](https://docs.fastlane.tools/actions/xcexport/)    | 使用 `xcodebuild -exportArchive` 命令导出 |
+
+##### 工程修改
+
+| Action                                                       | 描述                  |
+| ------------------------------------------------------------ | --------------------- |
+| [increment_build_number](https://docs.fastlane.tools/actions/increment_build_number/) | 自增 build 号         |
+| [set_info_plist_value](https://docs.fastlane.tools/actions/set_info_plist_value/) | 设置 info.plist 的值  |
+| [update_plist](https://docs.fastlane.tools/actions/update_plist/) | 更改指定 plist 的内容 |
+
+##### 发布
+
+| Action                                                       | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [deliver](https://docs.fastlane.tools/actions/match/)、[appstore](https://docs.fastlane.tools/actions/appstore/)、[upload_to_app_store](https://docs.fastlane.tools/actions/upload_to_app_store/) | 发布到 Appstore，需要用户认证信息参考[文档-验证](https://docs.fastlane.tools/getting-started/ios/authentication/) |
+
+##### 证书、描述文件的管理
+
+| Action                                                       | 描述                       |
+| ------------------------------------------------------------ | -------------------------- |
+| [match](https://docs.fastlane.tools/actions/match/)、[sync_code_signing](https://docs.fastlane.tools/actions/sync_code_signing/) | 通过Git 同步证书和描述文件 |
+
+##### 文档
+
+| Action                                                    | 描述                         |
+| --------------------------------------------------------- | ---------------------------- |
+| [appledoc](https://docs.fastlane.tools/actions/appledoc/) | 生成指定文件的 appledoc 文档 |
+
+##### 其他常用工具
 
 | 文件名                                                       | 描述                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -282,6 +324,14 @@ source "https://gems.ruby-china.com"
 | [WatchBuild](https://docs.fastlane.tools/actions/WatchBuild/) | 是一个独立的iTC监控工具，开启WatchBuild可以监控iTC上的文件状态，弹出MacOS自带的Notification |
 | [supply](https://docs.fastlane.tools/actions/supply/) | Android自动上传到Google Play工具(如果有时间，我想把国内提供API的Android Store都写个插件自动上传，这个问题从10年我刚开始工作就觉得是个痛点) |
 | [screengrab](https://docs.fastlane.tools/actions/screengrab/) | Android的自动截图工具                                        |
+
+##### Fastlane 环境变量
+
+ *fastlane* 还有一个 `--env`选项允许加载环境特定`.env`文件，其存储位置在 `fastlane` 文件夹。`.env` 环境变量文件的命名约定是`.env.<environment>`，其加载顺序是 `.env`、`.env.default` 和 `.env.app1`。例如，在 `fastlane` 文件夹中存储了`.env.beta`、`.env.appstore` 和 `.env`。
+
+```shell
+fastlane <lane-name> --env beta 将加载 .env 和 .env.beta
+```
 
 
 

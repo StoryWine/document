@@ -19,6 +19,8 @@ JRE = JVM + Java SE 类库
 > 2. https://www.azul.com/downloads/?package=jdk#zulu
 > 3. https://www.oracle.com/java/technologies/downloads/
 
+
+
 ## 安装JAVA环境
 
 使用安装包安装 JDK 时，安装路径一般为 `/Library/Java/JavaVirtualMachines`，这也是 mac OS JDK 的默认路径
@@ -155,7 +157,37 @@ JRE = JVM + Java SE 类库
      ```
 
 
+
 ## JAVA_HOME 环境变量
+
+
+
+### 名词解释
+
+Bash（Bourne-Again Shell）和 Zsh（Z Shell）都是常见的命令行 Shell 程序，用于在 Unix-like 操作系统中与操作系统进行交互。它们是用户界面与操作系统内核之间的接口，用于执行命令、管理文件、运行脚本等。以下是对 Bash 和 Zsh 的简要介绍：
+
+1. **Bash（Bourne-Again Shell）**：
+   - **特点**：Bash 是 Unix 和 Linux 系统中最常见和广泛使用的 Shell。它是 Bourne Shell 的升级版本，具有广泛的兼容性和功能。Bash 支持命令历史、命令补全、作业控制、脚本编程等特性。
+   - **功能**：Bash 提供了一套丰富的命令和功能，允许用户执行各种任务，从文件和目录管理到系统配置和自动化。它也是默认的命令行 Shell 在大多数 Linux 发行版和 macOS 系统上。
+   - **配置文件**：Bash 使用 `.bashrc` 或 `.bash_profile` 文件来配置用户环境。这些文件包含设置环境变量、别名、函数、路径等的命令。
+   - **使用场景**：Bash 适用于从日常命令行任务到编写脚本进行自动化的各种场景。
+2. **Zsh（Z Shell）**：
+   - **特点**：Zsh 是一个功能更强大和高度可定制的 Shell。它扩展了 Bourne Shell 和 Bash 的功能，并添加了更多的特性和改进。Zsh 具有更好的命令补全、更高级的历史管理、多种主题和插件等。
+   - **功能**：Zsh 强调用户友好性和定制性，它提供了更先进的命令补全，可以根据历史和上下文来建议和完成命令。Zsh 也支持各种插件和主题，使用户能够根据自己的喜好进行扩展和美化。
+   - **配置文件**：Zsh 使用 `.zshrc` 文件来配置用户环境。你可以在这个文件中添加设置，如环境变量、别名、函数、路径，以及各种 Zsh 特有的配置选项。
+   - **使用场景**：Zsh 适用于那些希望更好的用户体验和更高级的交互性的用户，以及需要定制和扩展 Shell 功能的用户。
+
+**.zshrc** ：
+
+`.zshrc` 是用于配置 Zsh Shell 的配置文件。Zsh 是一种功能强大的 Shell，它提供了很多自定义选项和功能。
+
+**.bash_profile**：
+
+`.bash_profile` 是用于配置 Bash Shell 的配置文件。Bash 是 Unix-like 系统中广泛使用的 Shell
+
+
+
+### 配置环境变量
 
 不同程序依赖的 JDK 版本不同，为了保持兼容，我们可能会在环境中安装多个版本的 JDK。
 上面提到，java 程序需要 JRE 才能运行，而存在多个 JDK 时，就需要一种可以定位到特定 JDK 的方法。一般程序中会通过 JAVA_HOME 环境变量来定位相应的 JDK/JRE，该变量可以理解为一个指向 JAVA 环境的指针。
@@ -179,7 +211,7 @@ JRE = JVM + Java SE 类库
    #配置JDK路径
    export JAVA_X_HOME="/Library/Java/JavaVirtualMachines/X.jdk/Contents/Home"
    #配置alias 动态切换版本
-   alias javaX='export JAVA_HOME=$JAVA_X_HOME'、
+   alias javaX='export JAVA_HOME=$JAVA_X_HOME'
    #设置默认JDK版本
    export JAVA_HOME=$JAVA_X_HOME
    ```
@@ -215,9 +247,11 @@ JRE = JVM + Java SE 类库
    unset JAVA_HOME
    ```
 
+
+
 ## 安装jenv管理多个JDK版本
 
-Jenv地址`https://www.jenv.be/`
+Jenv地址：`https://www.jenv.be/`
 
 查看本地默认环境JDK版本路径命令
 
@@ -391,8 +425,8 @@ echo $JAVA_HOME
 
    ```
    alias jdk8='jenv global zulu64-1.8.0.372'
-   alias jdk17='jenv global 20'
-   alias jdk18='jenv global 17.0.7'
+   alias jdk20='jenv global 20'
+   alias jdk17	='jenv global 17.0.7'
    ```
 
    
@@ -401,10 +435,11 @@ echo $JAVA_HOME
 
 ```
 .bash_profile 中修改的环境变量只针对当前登录用户的配置，修改完.bash_profile之后记得在终端输入source ~/.bash_profile使之生效。
-.zshrc 开机加载的环境变量在电脑每次自启时都会生效（永久有效），修改完之后在终端输入source ~/.zshrc使之生效。
+.zshrc 开机加载的环境变量在电脑每次自启时都会生效（永久有效），修改完之后在终端输入source ~/.zshrc并重启电脑使之生效。
 ```
 
 ```tex
+使用命令 alias 查看配置的全部别名
 使用命令 where java 查找 JAVA 位置
 使用命令 java -version 查看 JAVA 版本号
 使用命令 /usr/libexec/java_home -V 查看默认路径下所有的 java 环境版本
@@ -422,4 +457,8 @@ sudo rm -fr /Library/PreferencePanes/JavaControlPanel.prefPane
 sudo rm -fr ~/Library/Application\ Support/Oracle/Java
 sudo rm -rf /Library/Java
 ```
+
+
+
+## 问题锦集
 
